@@ -2,6 +2,8 @@ import json
 from flask import Flask
 from flask import render_template
 from flask import request
+from difflib import get_close_matches
+data = json.load(open('data.json'))
 
 app = Flask(__name__)
 
@@ -10,7 +12,6 @@ def home():
 	return render_template('home.html')
 
 def definition_word(word):
-	data = json.load(open('data.json'))
 	if word in data:
 		return data[word]
 
@@ -19,17 +20,20 @@ def dictionary():
 	# Input value of the given input word
 	word = request.form['word']
 	print(word)
-	message = definition_word(word)
-	print(message)
-	if type(message) == list:
-		for definition in message:
-			return render_template('home.html', word=word, definition=definition)
-	elif type(message) == type(None):
-		message = "The word doesn't exists. Please double check it."
-		return render_template('home.html', message=message)
+	messages = definition_word(word)
+	print(messages)
+	if type(messages) == list:
+		for message in messages:
+			return render_template('home.html', word=word, message=message)
 	else:
-		message = "Sorry, we didn't understand. Please try again!"
-		return render_template('home.html', message=message)
+		if type(messages) == type(None):
+			if len(get_close_matches(word, data.keys())) > 0:
+				word = get_close_matches(word, data.keys())[0]
+				message = f"Do you mean {word} instead?"
+				return render_template('home.html', word=word, message=message)
+			else:
+				message = "The word doesn't exists. Please double check it."
+				return render_template('home.html', word=word, message=message)
 
 if __name__ == '__main__':
 	app.run(host='localhost', debug=True)
