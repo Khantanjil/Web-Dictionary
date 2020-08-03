@@ -22,7 +22,8 @@ def dictionary():
 	message = definition_word(word)
 	print(message)
 	if type(message) == list:
-		return render_template('home.html', word=word, message=message)
+		for definition in message:
+			return render_template('home.html', word=word, definition=definition)
 	elif type(message) == type(None):
 		message = "The word doesn't exists. Please double check it."
 		return render_template('home.html', message=message)
