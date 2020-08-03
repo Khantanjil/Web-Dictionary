@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+	<link rel="stylsheet" type="text/css" href="{{url_for('static', filename='css/main.css')}}">
+	<title>Flask Dictionary Application</title>
+</head>
+<body>
+	<main role="main" class="container">
+		<h1 class="mt-5">Flask Web Application Dictionary</h1>
+		<p class="lead"> Interactive Dictionary, write the word to know the definition of the given word.
+
+			<div id="dictionary" style="padding-right: 900px;">
+				<form method="POST" action='/dictionary/'>
+				<input class="form-control" type="text" name='word' placeholder="Enter a word">
+			</div>
+			<button type="submit" class="btn btn-outline-dark" style="margin-top: 15px;" value="enter" name="enter">Enter</button>
+		</form>
+		<p class="h1" style="margin-top: 10px;">{{word}}</p>
+		<blockquote class="blockquote">
+			<p class="mb-0">{{message}}</p>
+		</blockquote>
+	</main>
+</body>
+</html>
