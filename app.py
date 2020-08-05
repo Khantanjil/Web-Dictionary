@@ -25,6 +25,20 @@ def dictionary():
 	if type(messages) == list:
 		for message in messages:
 			return render_template('home.html', word=word, message=message)
+		if word.title() in data:
+			word = word.title()
+			messages = definition_word(word)
+			for message in messages:
+				return render_template('home.html', word=word, message=message)
+		elif word.upper() in data:
+			word = word.upper()
+			messages = definition_word(word)
+			for message in messages:
+				return render_template('home.html', word=word, message=message)
+		else:
+			message = "The word doesn't exists. Please double check it."
+			return render_template('home.html', word=word, message=message)
+		
 	else:
 		if type(messages) == type(None):
 			if len(get_close_matches(word, data.keys())) > 0:
@@ -34,6 +48,9 @@ def dictionary():
 			else:
 				message = "The word doesn't exists. Please double check it."
 				return render_template('home.html', word=word, message=message)
+		else:
+			message = "The word doesn't exists. Please double check it."
+			return render_template('home.html', word=word, message=message)
 
 if __name__ == '__main__':
 	app.run(host='localhost', debug=True)
